@@ -80,7 +80,41 @@ module.exports = {
     new GenerateSW({
       cacheId: 'shame-dev',
       clientsClaim: true,
-      skipWaiting: true
+      skipWaiting: true,
+      exclude: '/vendor/',
+      runtimeCaching: [
+        {
+          urlPattern: /vendor/,
+          handler: 'CacheFirst'
+        },
+        {
+          urlPattern: new RegExp('^https://fonts.googleapis.com/'),
+          handler: 'StaleWhileRevalidate',
+          options: {
+            cacheableResponse: {
+              statuses: [0, 200]
+            }
+          }
+        },
+        {
+          urlPattern: new RegExp('^https://fonts.gstatic.com/'),
+          handler: 'StaleWhileRevalidate',
+          options: {
+            cacheableResponse: {
+              statuses: [0, 200]
+            }
+          }
+        },
+        {
+          urlPattern: new RegExp('^https://pbs.twimg.com/'),
+          handler: 'StaleWhileRevalidate',
+          options: {
+            cacheableResponse: {
+              statuses: [0, 200]
+            }
+          }
+        }
+      ]
     })
   ],
   devtool: process.env.NODE_ENV === 'production' ? 'none' : 'source-map',

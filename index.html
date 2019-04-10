@@ -18,15 +18,22 @@
       crossorigin
     />
     <link
-            rel="preload"
-            as="font"
-            type="font/woff2"
-            href="./roboto-mono-v6-latin-regular.woff2"
-            crossorigin
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      href="./roboto-mono-v6-latin-regular.woff2"
+      crossorigin
     />
   </head>
   <body>
     <noscript>This site only works with JavaScript enabled. :(</noscript>
     <div id="root"></div>
+    <script type="text/javascript">
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/service-worker.js');
+        });
+      }
+    </script>
   </body>
 </html>

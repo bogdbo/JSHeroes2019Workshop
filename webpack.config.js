@@ -52,7 +52,7 @@ module.exports = {
     ]
   },
   optimization: {
-    minimizer: [new TerserPlugin(), new OptimizeCssAssetsPlugin()]
+    minimizer: [new TerserPlugin({ sourceMap: false }), new OptimizeCssAssetsPlugin()]
   },
   plugins: [
     new HtmlWebpackPlugin({

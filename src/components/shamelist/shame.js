@@ -15,32 +15,12 @@ export default ({
   showControls,
   deleteShamecap
 }) => {
-  const [prettierCode, setPrettierCode] = React.useState('');
-
-  Promise.all([
-    import('prettier/standalone' /* webpackChunkName: "prettier" */),
-    import('prettier/parser-graphql' /* webpackChunkName: "graphql" */),
-    import('prettier/parser-babylon' /* webpackChunkName: "babylon" */),
-    import('prettier/parser-markdown' /* webpackChunkName: "markdown" */)
-  ]).then(([prettier, ...plugins]) => {
-    try {
-      setPrettierCode(
-        prettier.format(code, {
-          parser: language === 'javascript' ? 'babel' : language,
-          plugins
-        })
-      );
-    } catch {
-      setPrettierCode(code);
-    }
-  });
-
   return (
     <section className="shame-wrapper">
       <div className="shame">
         <div className="terminal">
           <Controls />
-          <Code language={language} code={prettierCode} />
+          <Code language={language} code={code} />
         </div>
       </div>
       <h3 className="title">{title}</h3>

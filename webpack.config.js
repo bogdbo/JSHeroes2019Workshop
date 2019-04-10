@@ -1,11 +1,13 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
+  .BundleAnalyzerPlugin;
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
+const { GenerateSW } = require('workbox-webpack-plugin');
 
 module.exports = {
   entry: {
@@ -24,7 +26,11 @@ module.exports = {
       },
       {
         test: /\.s?(a|c)ss$/,
-        use: [{ loader: MiniCssExtractPlugin.loader }, 'css-loader', 'sass-loader']
+        use: [
+          { loader: MiniCssExtractPlugin.loader },
+          'css-loader',
+          'sass-loader'
+        ]
       },
       {
         test: /\.svg$/,
@@ -52,7 +58,10 @@ module.exports = {
     ]
   },
   optimization: {
-    minimizer: [new TerserPlugin({ sourceMap: false }), new OptimizeCssAssetsPlugin()]
+    minimizer: [
+      new TerserPlugin({ sourceMap: false }),
+      new OptimizeCssAssetsPlugin()
+    ]
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -67,7 +76,12 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: '[name].[hash].css'
     }),
-    new CompressionPlugin()
+    new CompressionPlugin(),
+    new GenerateSW({
+      cacheId: 'shame-dev',
+      clientsClaim: true,
+      skipWaiting: true
+    })
   ],
   devtool: process.env.NODE_ENV === 'production' ? 'none' : 'source-map',
   devServer: {
